@@ -36,8 +36,6 @@ go
 create table recuC (id int identity, txt nvarchar(10));	-- 간접 재귀 트리거용 테이블C
 go
 
--- 중첩트리거 실습
-
 -- 물품테이블에서 갯수를 감소시키는 트리거
 create trigger trg_order
 on orderTbl
@@ -77,5 +75,6 @@ go
 select * from orderTbl;
 select * from prodTbl;
 select * from deliverTbl;
+go
 
 
