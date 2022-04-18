@@ -33,7 +33,7 @@ go
 -- 세금은 일괄적으로 5% 로 계산하세요.
 -- 그리고, 생성된 함수를 사용하여 전 사원의 세전 과 세후를
 -- 확인할 수 있도록 출력하세요.
---drop function cal_tax
+-- drop function cal_tax
 
 create function hr.cal_tax()
 	returns table
@@ -45,7 +45,7 @@ as
 go
 
 select * from hr.cal_tax();
-
+go
 
 -- 문제 4
 -- hr.emp_temp 에 트리거를 추가하세요.
@@ -53,11 +53,23 @@ select * from hr.cal_tax();
 -- DML 이벤트가 발생할 경우
 -- 주말에서 등록, 수정, 삭제 할 수 없습니다.' 메시지를 출력하며,
 -- 트랜잭션이 취소가 되도록 하세요.
-	
+drop trigger hr.trg_checkWeek
 create trigger trg_checkWeek
 on hr.emp_temp
-instead of insert, update, delete
+after insert, update, delete
 as
-	if(datepart(weekday,getdate()) = 7 or datepart(weekday,getdate()) = 1)
+	if(datepart(weekday,getdate()) = 7 or datepart(weekday,getdate()) = 2) --
 	begin
+		print('주말에 등록, 수정, 삭제 불가능')
+		ROLLBACK TRAN
+	end
+go
+
+select * from hr.emp_temp
+insert into hr.emp_temp values(1,'test','test',1,1,1,'test')
+
+
+
+
+
 		
