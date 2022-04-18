@@ -52,10 +52,9 @@ go
 
 create procedure proc_sell
 as
-	declare @i int
-	set @i = 1
+	select code, amount, rank() over(order by amount desc) as [매출순위]
+	from sell
+go
 
-	while(@i <= 5)
-	begin
-		select amount from sell order by amount
-	 
+exec proc_sell
+
