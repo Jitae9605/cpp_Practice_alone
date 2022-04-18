@@ -39,8 +39,6 @@ insert into T매출(일자, 제품, 수량)
 values ('20200101', 'A1', 10), ('20200102', 'A2', 20)
 go
 
-select * from T매출 
-go
 drop procedure hr.proc_assign
 go
 create procedure hr.proc_assign
@@ -141,6 +139,36 @@ AS
 go
 
 exec SP_CURSOR
+go
+
+-- 커서안쓰고 만듬
+create procedure sp_normal
+as
+	begin
+		CREATE TABLE #T작업1 (
+			코드 NVARCHAR(10),
+			수량 NUMERIC(18,0)
+		)
+		declare @i int
+		set @i = 1;
+		declare @count int
+		
+		INSERT INTO #T작업1 (코드, 수량)
+			VALUES ('A1', 10), ('A2', 20), ('A3', 30)
+
+			set @count = (select COUNT(*) from #T작업1)
+		while(@i < @count)
+		begin
+			with temp as (
+				select row_number() over (order by (select 1)) as row#, 코드, 수량 from #T작업1
+			)
+			select 코드, 수량 from temp where row# = @i
+			set @i += 1
+		end
+	end
+go
+exec sp_normal
+
 
 -- 추가문제 4
 -- 문제의 요구사항을 확인 후, 프로시저를 작성하세요.
