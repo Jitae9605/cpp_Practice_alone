@@ -54,7 +54,7 @@ go
 -- 단, 담당 직무가 MANAGER 이면, 급여를 10% 인상하고, SALESMAN 이면, 급여를 5% 인상하고, ANALYST 이면, 급여 인상이 없고, 그 외는 급여를 3% 인상이 되도록 하세요.
 select empno, ename, job, sal,
 	case
-		when(job = 'MANAGER') then sal * 0.1
+		when(job = 'MANAGER') then sal * 1.1
 		when(job = 'SALESMAN') then sal*1.05
 		when(job = 'ANALYST') then sal
 		else sal*(1.03)
